@@ -241,6 +241,7 @@ const { isFullPage = false } = Astro.props;
     }
   }
 
+  // Run on first load and after page transitions
   initPolicySearch();
   document.addEventListener("astro:page-load", initPolicySearch);
 </script>

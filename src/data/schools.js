@@ -1,87 +1,172 @@
 export const SCHOOLS = [
   {
     id: "chs",
+    slug: "canton-high-school",
     name: "Canton High School",
     shortName: "CHS",
     grades: "Grades 9 – 12",
     mascot: "Little Giants",
-    colors: "Purple & Gold",
+    colors: "Purple & Vegas Gold",
     principal: "Matthew Venters",
     asstPrincipal: "Brad Hulet",
     address: "1001 N. Main Street, Canton, IL 61520",
     phone: "(309) 647-1820",
+    fax: "(309) 649-5039",
     hours: "8:00 AM – 3:00 PM",
     handbookUrl: "https://www.cantonusd.org/canton-high-school.html",
     athleticsUrl: "https://schools.snap.app/canton",
+    tagline: "Fostering academic excellence, leadership, and Little Giant pride.",
     description: "Home of the Little Giants. Providing rigorous college-prep, CTE pathways, award-winning fine arts, and 19 IHSA varsity sports.",
-    badges: ["19 IHSA Sports", "Dual Credit & AP", "CTE & Co-Op", "State Band Champions"]
+    badges: ["19 IHSA Sports", "Dual Credit & AP", "CTE & Co-Op", "State Band Champions"],
+    quickLinks: [
+      { label: "Athletic Schedules & Rosters", url: "https://schools.snap.app/canton", icon: "⚡" },
+      { label: "Skyward Family Access", url: "https://www.cantonusd.org/skyward-family-access.html", icon: "🎓" },
+      { label: "CHS Student Handbook", url: "https://www.cantonusd.org/canton-high-school.html", icon: "📘" },
+      { label: "Daily Breakfast & Lunch Menu", url: "https://www.fdmealplanner.com/#menu/mp/CantonUnionSD/", icon: "🍎" },
+      { label: "Guidance & College Counseling", url: "https://www.cantonusd.org/cusd-counselors.html", icon: "🤝" },
+      { label: "CHS Band & Music Ensembles", url: "https://www.cantonusd.org/chs-band.html", icon: "🎺" }
+    ],
+    highlights: [
+      { title: "Academic Pathways", desc: "Advanced Placement, dual credit with Spoon River College, and career technical training." },
+      { title: "Championship Athletics", desc: "19 varsity programs competing with tradition in the Mid-Illini Conference." },
+      { title: "1:1 Chromebook Technology", desc: "Individual student computing integrated into every classroom." },
+      { title: "Fine Arts & Clubs", desc: "Award-winning marching band, theater productions, and scholastic bowl." }
+    ]
   },
   {
     id: "ims",
+    slug: "ingersoll-middle-school",
     name: "Ingersoll Middle School",
     shortName: "IMS",
     grades: "Grades 5 – 8",
     mascot: "Little Giants",
-    colors: "Purple & Gold",
+    colors: "Purple & Vegas Gold",
     principal: "Amy Smith",
     asstPrincipal: "Eric Vondran",
     address: "1605 E. Ash Street, Canton, IL 61520",
     phone: "(309) 647-2115",
+    fax: "(309) 647-2118",
     hours: "7:55 AM – 2:50 PM",
     handbookUrl: "https://www.cantonusd.org/ims-student-handbook.html",
     athleticsUrl: "https://schools.snap.app/canton",
+    tagline: "Empowering middle grades students through discovery, technology, and character.",
     description: "Fostering academic excellence, creative discovery, and social growth in a supportive 1:1 technology middle school environment.",
-    badges: ["1:1 Chromebooks", "IESA Athletics", "STEM & Robotics", "PBIS Gold"]
+    badges: ["1:1 Chromebooks", "IESA Athletics", "STEM & Robotics", "PBIS Gold"],
+    quickLinks: [
+      { label: "IMS Student Handbook", url: "https://www.cantonusd.org/ims-student-handbook.html", icon: "📘" },
+      { label: "Skyward Family Access", url: "https://www.cantonusd.org/skyward-family-access.html", icon: "🎓" },
+      { label: "1:1 Device Agreement & Rules", url: "https://www.cantonusd.org/ims-student-device-expectations.html", icon: "💻" },
+      { label: "Daily Cafeteria Menu", url: "https://www.fdmealplanner.com/#menu/mp/CantonUnionSD/", icon: "🍎" },
+      { label: "IESA Athletics & Schedules", url: "https://schools.snap.app/canton", icon: "⚡" },
+      { label: "Report Bullying / Concerns", url: "https://www.cantonusd.org/report-bullying.html", icon: "🚨" }
+    ],
+    highlights: [
+      { title: "Middle School Transition", desc: "Structured team-teaching environment supporting the step up from elementary school." },
+      { title: "STEM & Digital Literacy", desc: "Dedicated robotics, coding, and hands-on science laboratories." },
+      { title: "PBIS Gold Recognition", desc: "School-wide positive behavioral interventions and student mentorship." },
+      { title: "IESA Interscholastic Sports", desc: "Competitive athletic teams across cross country, basketball, track, and volleyball." }
+    ]
   },
   {
     id: "eastview",
+    slug: "eastview-elementary",
     name: "Eastview Elementary School",
     shortName: "Eastview",
     grades: "Grades K – 4",
     mascot: "Little Giants",
-    colors: "Purple & Gold",
+    colors: "Purple & Vegas Gold",
     principal: "Bridgette Dennis",
     asstPrincipal: "Staff Team",
     address: "1490 E. Myrtle Street, Canton, IL 61520",
     phone: "(309) 647-0136",
+    fax: "(309) 647-0138",
     hours: "8:20 AM – 3:15 PM",
     handbookUrl: "https://www.cantonusd.org/elementary-handbooks.html",
     athleticsUrl: "https://www.cantonusd.org/parentsstudents.html",
+    tagline: "Inspiring curious minds and joyful early learning every single day.",
     description: "Inspiring curious, confident early learners through differentiated reading, small group math, and welcoming family involvement.",
-    badges: ["Full-Day Kindergarten", "Title I Reading", "Active PTO", "Makerspace"]
+    badges: ["Full-Day Kindergarten", "Title I Reading", "Active PTO", "Makerspace"],
+    quickLinks: [
+      { label: "Elementary Student Handbook", url: "https://www.cantonusd.org/elementary-handbooks.html", icon: "📘" },
+      { label: "Skyward Family Access", url: "https://www.cantonusd.org/skyward-family-access.html", icon: "🎓" },
+      { label: "School Breakfast & Lunch", url: "https://www.fdmealplanner.com/#menu/mp/CantonUnionSD/", icon: "🍎" },
+      { label: "Eastview SIP School Improvement Plan", url: "https://www.cantonusd.org/eastview-sip-plan.html", icon: "📈" },
+      { label: "Kindergarten Registration Info", url: "https://www.cantonusd.org/registration-info.html", icon: "📝" },
+      { label: "Elementary Library Hub", url: "https://sites.google.com/cusd66.org/cusd66libraries?usp=sharing", icon: "📚" }
+    ],
+    highlights: [
+      { title: "Foundational Literacy", desc: "Structured phonics and small group differentiated reading instruction." },
+      { title: "Full-Day Kindergarten", desc: "Engaging early childhood programs building confidence and social skills." },
+      { title: "Community Partnerships", desc: "Active parent-teacher organization and family literacy nights." },
+      { title: "Positive School Culture", desc: "Character education emphasizing kindness, respect, and responsibility." }
+    ]
   },
   {
     id: "lincoln",
+    slug: "lincoln-elementary",
     name: "Lincoln Elementary School",
     shortName: "Lincoln",
     grades: "Grades K – 4",
     mascot: "Little Giants",
-    colors: "Purple & Gold",
+    colors: "Purple & Vegas Gold",
     principal: "KiLee Lidwell-McFerren",
     asstPrincipal: "Staff Team",
     address: "206 Elm Street, Canton, IL 61520",
     phone: "(309) 647-7594",
+    fax: "(309) 647-7596",
     hours: "8:20 AM – 3:15 PM",
     handbookUrl: "https://www.cantonusd.org/elementary-handbooks.html",
     athleticsUrl: "https://www.cantonusd.org/parentsstudents.html",
+    tagline: "A nurturing neighborhood school rooted in literacy, discovery, and community.",
     description: "A nurturing neighborhood school committed to foundational literacy, hands-on science inquiry, and community kindness.",
-    badges: ["Early Childhood", "STEAM Lab", "Family Literacy", "Positive Culture"]
+    badges: ["Early Childhood", "STEAM Lab", "Family Literacy", "Positive Culture"],
+    quickLinks: [
+      { label: "Elementary Student Handbook", url: "https://www.cantonusd.org/elementary-handbooks.html", icon: "📘" },
+      { label: "Skyward Family Access", url: "https://www.cantonusd.org/skyward-family-access.html", icon: "🎓" },
+      { label: "Lincoln Behavior Matrix", url: "https://www.cantonusd.org/lincoln-behavior-matrix.html", icon: "⭐" },
+      { label: "Lincoln SIP School Plan", url: "https://www.cantonusd.org/lincoln-school-improvement-plan.html", icon: "📈" },
+      { label: "Daily Cafeteria Menu", url: "https://www.fdmealplanner.com/#menu/mp/CantonUnionSD/", icon: "🍎" },
+      { label: "Accelerated Reader (AR)", url: "https://global-zone51.renaissance-go.com/welcomeportal/183021%20%20", icon: "📖" }
+    ],
+    highlights: [
+      { title: "Early Childhood Excellence", desc: "Comprehensive support for emerging readers and young learners." },
+      { title: "STEAM Discovery", desc: "Hands-on science labs and creative design activities." },
+      { title: "Behavior Matrix", desc: "Clear, encouraging expectations shared between school and home." },
+      { title: "Neighborhood Feel", desc: "Strong teacher-parent connections and welcoming community pride." }
+    ]
   },
   {
     id: "westview",
+    slug: "westview-elementary",
     name: "Westview Elementary School",
     shortName: "Westview",
     grades: "Grades K – 4",
     mascot: "Little Giants",
-    colors: "Purple & Gold",
+    colors: "Purple & Vegas Gold",
     principal: "Nick Fahl",
     asstPrincipal: "Staff Team",
     address: "700 W. Walnut Street, Canton, IL 61520",
     phone: "(309) 647-2111",
+    fax: "(309) 647-2114",
     hours: "8:20 AM – 3:15 PM",
     handbookUrl: "https://www.cantonusd.org/elementary-handbooks.html",
     athleticsUrl: "https://www.cantonusd.org/parentsstudents.html",
+    tagline: "Empowering children with strong academic fundamentals and joyful discoveries.",
     description: "Empowering every child with strong academic fundamentals, character education, and joyful childhood discoveries.",
-    badges: ["Friends of Westview", "Reading Garden", "SEL Support", "Outdoor Learning"]
+    badges: ["Friends of Westview", "Reading Garden", "SEL Support", "Outdoor Learning"],
+    quickLinks: [
+      { label: "Elementary Student Handbook", url: "https://www.cantonusd.org/elementary-handbooks.html", icon: "📘" },
+      { label: "Skyward Family Access", url: "https://www.cantonusd.org/skyward-family-access.html", icon: "🎓" },
+      { label: "Friends of Westview", url: "https://www.cantonusd.org/friends-of-westview.html", icon: "🤝" },
+      { label: "Westview SIP School Plan", url: "https://www.cantonusd.org/westview-sip-plan.html", icon: "📈" },
+      { label: "Daily Cafeteria Menu", url: "https://www.fdmealplanner.com/#menu/mp/CantonUnionSD/", icon: "🍎" },
+      { label: "Elementary Library Hub", url: "https://sites.google.com/cusd66.org/cusd66libraries?usp=sharing", icon: "📚" }
+    ],
+    highlights: [
+      { title: "Reading Garden & Library", desc: "Dedicated outdoor and indoor spaces encouraging lifelong reading habits." },
+      { title: "Social-Emotional Learning", desc: "Dedicated student supports helping children build resilience and empathy." },
+      { title: "Friends of Westview", desc: "Vibrant parent and volunteer organization enriching school events." },
+      { title: "Small Group Mathematics", desc: "Interactive math centers emphasizing problem solving and confidence." }
+    ]
   }
 ];

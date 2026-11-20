@@ -1,15 +1,16 @@
 :root {
-  --cusd-purple: #4B2E83;
-  --cusd-purple-dark: #351C66;
-  --cusd-purple-deep: #241147;
+  --cusd-purple: #6A0DAD;
+  --cusd-purple-dark: #52098A;
+  --cusd-purple-deep: #3B0564;
   --cusd-purple-light: #F3E8FF;
   --cusd-purple-border: #D8B4FE;
   
-  --cusd-gold: #F5B800;
-  --cusd-gold-dark: #D99B00;
-  --cusd-gold-hover: #E5A800;
-  --cusd-gold-light: #FEF9C3;
-  --cusd-gold-border: #FDE047;
+  /* Vegas Gold Brand Palette */
+  --cusd-gold: #C5B358;
+  --cusd-gold-dark: #A39032;
+  --cusd-gold-hover: #D4C36C;
+  --cusd-gold-light: #F7F5EA;
+  --cusd-gold-border: #DDD29A;
 
   --slate-900: #0F172A;
   --slate-800: #1E293B;
@@ -157,10 +158,10 @@ button, input, select {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 10px rgba(75, 46, 131, 0.3);
+  box-shadow: 0 4px 10px rgba(106, 13, 173, 0.3);
   font-weight: 800;
   letter-spacing: -0.5px;
-  border: 1px solid rgba(245, 184, 0, 0.4);
+  border: 1px solid rgba(197, 179, 88, 0.4);
 }
 .crest-number {
   font-size: 1.15rem;
@@ -228,7 +229,7 @@ button, input, select {
   border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 0.875rem;
-  box-shadow: 0 2px 5px rgba(75, 46, 131, 0.25);
+  box-shadow: 0 2px 5px rgba(106, 13, 173, 0.25);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -238,15 +239,15 @@ button, input, select {
 .btn-skyward:hover {
   background: var(--cusd-purple-dark);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(75, 46, 131, 0.35);
+  box-shadow: 0 4px 10px rgba(106, 13, 173, 0.35);
   color: var(--cusd-gold);
 }
 
 /* Hero Section */
 .hero-district {
   position: relative;
-  background: radial-gradient(circle at 80% 20%, rgba(245, 184, 0, 0.15), transparent 40%),
-              linear-gradient(135deg, #2D1452 0%, #3B1B6A 45%, #4B2E83 100%);
+  background: radial-gradient(circle at 80% 20%, rgba(197, 179, 88, 0.18), transparent 40%),
+              linear-gradient(135deg, #4A0072 0%, #6A0DAD 50%, #7B1FA2 100%);
   color: var(--white);
   padding: 4.5rem 0 5.5rem;
   overflow: hidden;
@@ -265,7 +266,7 @@ button, input, select {
   align-items: center;
   gap: 0.5rem;
   background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(245, 184, 0, 0.4);
+  border: 1px solid rgba(197, 179, 88, 0.45);
   color: var(--cusd-gold);
   font-size: 0.8125rem;
   font-weight: 700;
@@ -319,7 +320,7 @@ button, input, select {
 .btn-primary:hover {
   background: var(--cusd-gold-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 184, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(197, 179, 88, 0.4);
 }
 
 .btn-secondary {
@@ -567,7 +568,7 @@ button, input, select {
 }
 .policy-search-input:focus {
   border-color: var(--cusd-purple);
-  box-shadow: 0 0 0 4px rgba(75, 46, 131, 0.12);
+  box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.12);
 }
 
 .category-filter-pills {
