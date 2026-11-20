@@ -1,0 +1,84 @@
+---
+import Layout from "../../components/Layout.astro";
+import { SCHOOLS } from "../../data/schools.js";
+---
+
+<Layout 
+  title="Our Community Schools · Canton Union School District #66" 
+  description="Explore the five schools of Canton Union School District #66: Canton High School, Ingersoll Middle School, Eastview Elementary, Lincoln Elementary, and Westview Elementary."
+  currentPath="/schools"
+>
+  <div style="background: linear-gradient(135deg, var(--cusd-purple-deep), var(--cusd-purple)); color: white; padding: 3.5rem 0; border-bottom: 3px solid var(--cusd-gold);">
+    <div class="container">
+      <div style="max-width: 800px;">
+        <span class="hero-pill" style="margin-bottom: 1rem;">District 66 Campus Directory</span>
+        <h1 style="font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem;">
+          Our Community Schools
+        </h1>
+        <p style="font-size: 1.1rem; color: #E9D5FF; line-height: 1.6;">
+          Canton Union School District #66 serves over 2,200 students across five distinctive schools. Click on any school below to view its dedicated page, bell schedules, principal messages, daily resources, and student handbooks.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <section style="padding: 4.5rem 0; background: var(--slate-50);">
+    <div class="container">
+      <div class="schools-grid">
+        {SCHOOLS.map((school) => (
+          <article class="school-card">
+            <div>
+              <span class="school-badge">{school.grades}</span>
+              <h2 class="school-title">
+                <a href={`/schools/${school.slug}`} style="color: inherit;">
+                  {school.name}
+                </a>
+              </h2>
+              <div class="school-grades">Mascot: {school.mascot} ({school.colors})</div>
+            </div>
+
+            <p style="font-size: 0.875rem; color: var(--slate-600); margin-bottom: 1rem; line-height: 1.5;">
+              {school.description}
+            </p>
+
+            <ul class="school-meta-list">
+              <li class="school-meta-item">
+                <span>👤</span>
+                <span><strong>Principal:</strong> {school.principal}</span>
+              </li>
+              <li class="school-meta-item">
+                <span>📍</span>
+                <span>{school.address}</span>
+              </li>
+              <li class="school-meta-item">
+                <span>📞</span>
+                <a href={`tel:${school.phone.replace(/[^0-9]/g, '')}`} style="color: var(--cusd-purple); font-weight: 600;">
+                  {school.phone}
+                </a>
+              </li>
+              <li class="school-meta-item">
+                <span>⏰</span>
+                <span><strong>Hours:</strong> {school.hours}</span>
+              </li>
+            </ul>
+
+            <div class="school-tags">
+              {school.badges.map((tag) => (
+                <span class="school-tag">{tag}</span>
+              ))}
+            </div>
+
+            <div class="school-actions">
+              <a href={`/schools/${school.slug}`} class="btn-primary" style="font-size: 0.8125rem; padding: 0.45rem 0.9rem;">
+                Visit {school.shortName} Portal &rarr;
+              </a>
+              <a href={school.handbookUrl} target="_blank" rel="noopener" class="btn-policy-ext" style="font-size: 0.8125rem;">
+                Handbook ↗
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

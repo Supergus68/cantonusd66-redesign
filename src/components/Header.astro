@@ -46,7 +46,7 @@ const { currentPath = "/" } = Astro.props;
         <nav aria-label="Main Navigation">
           <ul class="nav-links">
             <li class="nav-item">
-              <a href="/#schools" class:list={["nav-link", { active: currentPath === "/schools" }]}>
+              <a href="/schools" class:list={["nav-link", { active: currentPath.startsWith("/schools") }]}>
                 Schools
               </a>
             </li>

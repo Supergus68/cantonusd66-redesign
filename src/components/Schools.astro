@@ -17,7 +17,11 @@ import { SCHOOLS } from "../data/schools.js";
         <article class="school-card">
           <div>
             <span class="school-badge">{school.grades}</span>
-            <h3 class="school-title">{school.name}</h3>
+            <h3 class="school-title">
+              <a href={`/schools/${school.slug}`} style="color: inherit;">
+                {school.name}
+              </a>
+            </h3>
             <div class="school-grades">Mascot: {school.mascot} ({school.colors})</div>
           </div>
 
@@ -53,11 +57,11 @@ import { SCHOOLS } from "../data/schools.js";
           </div>
 
           <div class="school-actions">
-            <a href={school.handbookUrl} target="_blank" rel="noopener" class="btn-policy-link" style="font-size: 0.8125rem;">
-              📘 Student Handbook
+            <a href={`/schools/${school.slug}`} class="btn-primary" style="font-size: 0.8125rem; padding: 0.45rem 0.9rem;">
+              Explore {school.shortName} &rarr;
             </a>
-            <a href={school.athleticsUrl} target="_blank" rel="noopener" class="btn-policy-ext" style="font-size: 0.8125rem;">
-              Athletics & Info ↗
+            <a href={school.handbookUrl} target="_blank" rel="noopener" class="btn-policy-ext" style="font-size: 0.8125rem;">
+              Handbook ↗
             </a>
           </div>
         </article>
