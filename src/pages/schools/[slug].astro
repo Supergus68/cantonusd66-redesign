@@ -10,108 +10,177 @@ export function getStaticPaths() {
 }
 
 const { school } = Astro.props;
+const [nameLead, ...nameRest] = school.name.split(" ");
+const gradesValue = school.grades.replace("Grades ", "");
+const primaryLink = school.quickLinks[0];
+
+function describe(label: string, shortName: string) {
+  const l = label.toLowerCase();
+  if (l.includes("handbook")) return "Rules, expectations, and procedures for the school year.";
+  if (l.includes("skyward")) return "Grades, attendance, assignments, and teacher messages.";
+  if (l.includes("menu") || l.includes("lunch") || l.includes("breakfast") || l.includes("food")) return "Daily breakfast and lunch nutrition information.";
+  if (l.includes("athletic") || l.includes("sports") || l.includes("roster")) return "Schedules, rosters, and Little Giants game information.";
+  if (l.includes("registration")) return "Enrollment forms and residency verification.";
+  if (l.includes("device") || l.includes("chromebook")) return "1:1 device expectations and agreement details.";
+  if (l.includes("bullying")) return "Report a concern confidentially to the district.";
+  if (l.includes("counsel")) return "Academic planning, college, and career guidance.";
+  if (l.includes("sip") || l.includes("school improvement") || l.includes("plan")) return "School improvement goals and progress reports.";
+  if (l.includes("library")) return "Digital library resources and reading tools.";
+  if (l.includes("band") || l.includes("music")) return "Ensembles, rehearsals, and performance schedules.";
+  if (l.includes("behavior")) return "Expectations and positive behavior supports.";
+  if (l.includes("accelerated reader")) return "Reading practice and accelerated reader resources.";
+  if (l.includes("kindergarten")) return "Kindergarten enrollment and readiness information.";
+  if (l.includes("friends") || l.includes("pto")) return "Parent organization news, events, and volunteer opportunities.";
+  return `Quick access to ${label.toLowerCase()} for ${shortName} families.`;
+}
 ---
 
-<Layout 
-  title={`${school.name} · Canton USD #66`} 
+<Layout
+  title={`${school.name} · Canton USD #66`}
   description={`${school.name} (${school.grades}) in Canton Union School District #66. Principal: ${school.principal}. Phone: ${school.phone}. Quick access to handbooks, Skyward, breakfast/lunch menus, and school resources.`}
   currentPath="/schools"
 >
-  <!-- School Hero Header -->
-  <section class="school-hero">
+  <!-- Hero: same layout and palette as the district home page -->
+  <section class="hero-district school-hero">
     <div class="container">
-      <div class="school-hero-content">
-        <a href="/#schools" class="back-link">
-          &larr; Back to All CUSD #66 Schools
-        </a>
-        <div class="school-hero-pill">
-          {school.grades} · Mascot: {school.mascot} ({school.colors})
-        </div>
-        <h1 class="school-hero-title">{school.name}</h1>
-        <p class="school-hero-tagline">{school.tagline}</p>
-        
-        <div class="school-hero-meta">
-          <span>👤 <strong>Principal:</strong> {school.principal}</span>
-          <span>📍 {school.address}</span>
-          <span>📞 <a href={`tel:${school.phone.replace(/[^0-9]/g, '')}`}>{school.phone}</a></span>
-          <span>📠 <strong>Fax:</strong> {school.fax}</span>
-          <span>⏰ <strong>Hours:</strong> {school.hours}</span>
+      <div class="hero-grid">
+        <div>
+          <a href="/schools" class="back-link">&larr; All CUSD #66 Schools</a>
+          <div class="hero-pill">
+            🏫 {school.grades} · {school.mascot} Pride
+          </div>
+          <h1 class="hero-title">
+            {nameLead} <span>{nameRest.join(" ")}</span>
+          </h1>
+          <p class="hero-lead">
+            {school.tagline} Everything {school.shortName} families need — portals, menus, handbooks, and policies — in one clean place.
+          </p>
+
+          <div class="hero-actions">
+            <a href={primaryLink.url} target="_blank" rel="noopener" class="btn-primary">
+              {primaryLink.icon} {primaryLink.label}
+            </a>
+            <a href="/policies" class="btn-secondary">
+              🔍 Board Policies
+            </a>
+            <a href="/parents" class="btn-secondary">
+              👨‍👩‍👧 Parent Hub
+            </a>
+          </div>
+
+          <div class="school-hero-badges">
+            {school.badges.map((badge: string) => (
+              <span class="school-badge-item">{badge}</span>
+            ))}
+          </div>
         </div>
 
-        <div class="school-hero-badges">
-          {school.badges.map((badge: string) => (
-            <span class="school-badge-item">{badge}</span>
-          ))}
+        <div>
+          <div class="hero-status-card">
+            <div class="status-card-header">
+              <span style="font-weight: 700; font-size: 0.95rem; color: #FFFFFF;">{school.shortName} Snapshot</span>
+              <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                <span>Little Giants</span>
+              </div>
+            </div>
+
+            <div class="status-stat-grid">
+              <div class="status-stat-box">
+                <div class="status-stat-num">{gradesValue}</div>
+                <div class="status-stat-lbl">Grade Levels</div>
+              </div>
+              <div class="status-stat-box">
+                <div class="status-stat-num">{school.mascot}</div>
+                <div class="status-stat-lbl">Mascot</div>
+              </div>
+              <div class="status-stat-box">
+                <div class="status-stat-num">{school.hours}</div>
+                <div class="status-stat-lbl">School Day</div>
+              </div>
+              <div class="status-stat-box">
+                <div class="status-stat-num">{school.phone}</div>
+                <div class="status-stat-lbl">Main Office</div>
+              </div>
+            </div>
+
+            <div class="snapshot-note">
+              <div>👤 <strong>Principal:</strong> {school.principal}</div>
+              <div>📍 {school.address}</div>
+              <div>📠 <strong>Fax:</strong> {school.fax}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- School Quick Action Portal Grid -->
-  <section class="school-quick-section">
+  <!-- Quick access: the same card style as the district home page -->
+  <section class="quick-access-section school-quick-section">
     <div class="container">
       <div class="section-header-centered">
         <span class="section-badge">Fast Parent Access</span>
         <h2 class="section-heading">Daily Resources for {school.shortName} Families</h2>
         <p class="section-sub">
-          Instant links to family portals, daily lunch menus, handbooks, and direct office services.
+          One click to the portals, handbooks, menus, and school information parents use most.
         </p>
       </div>
 
-      <div class="school-portal-grid">
+      <div class="quick-cards-grid">
         {school.quickLinks.map((item: { label: string; url: string; icon: string }) => (
-          <a href={item.url} target="_blank" rel="noopener" class="school-portal-card">
-            <div class="portal-card-icon">{item.icon}</div>
-            <div class="portal-card-label">{item.label}</div>
-            <div class="portal-card-arrow">Open Resource &rarr;</div>
+          <a href={item.url} target="_blank" rel="noopener" class="quick-card">
+            <div class="quick-card-icon">{item.icon}</div>
+            <div class="quick-card-title">{item.label}</div>
+            <div class="quick-card-desc">{describe(item.label, school.shortName)}</div>
+            <div class="quick-card-link">Open Resource &rarr;</div>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- School Highlights & Curriculum Section -->
-  <section class="school-features-section">
+  <!-- Highlights: same section and card treatment as the home page -->
+  <section class="policy-section school-features-section">
     <div class="container">
-      <div class="features-wrapper">
-        <div class="section-header-left">
-          <span class="section-badge">School Programs & Culture</span>
-          <h2 class="section-heading">Excellence at {school.shortName}</h2>
-          <p class="section-sub">
-            {school.description}
-          </p>
-        </div>
+      <div class="section-header-centered">
+        <span class="section-badge">School Programs & Culture</span>
+        <h2 class="section-heading">Excellence at {school.shortName}</h2>
+        <p class="section-sub">{school.description}</p>
+      </div>
 
-        <div class="features-grid">
-          {school.highlights.map((h: { title: string; desc: string }) => (
-            <div class="feature-box">
-              <h3 class="feature-title">{h.title}</h3>
-              <p class="feature-desc">{h.desc}</p>
+      <div class="policy-grid">
+        {school.highlights.map((h: { title: string; desc: string }) => (
+          <div class="policy-card highlight-card">
+            <div class="policy-card-top">
+              <span class="policy-code-badge">✦</span>
+              <span class="policy-section-tag">{school.shortName} Highlight</span>
             </div>
-          ))}
-        </div>
+            <h3 class="policy-title">{h.title}</h3>
+            <p class="policy-summary">{h.desc}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- District Support & Policies Banner -->
-  <section class="school-policies-banner">
+  <!-- Policy and parent-support callout -->
+  <section class="board-section school-policies-banner">
     <div class="container">
-      <div class="policy-cta-box">
-        <div>
-          <h3 style="font-size: 1.35rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.5rem;">
-            Have questions about {school.shortName} policies?
-          </h3>
-          <p style="color: #E9D5FF; font-size: 0.925rem; max-width: 680px; margin: 0;">
-            Search our comprehensive Board of Education Policy database for student conduct (7:190), 1:1 Chromebook rules (6:235), attendance policies (7:70), and bullying reporting.
-          </p>
-        </div>
+      <div class="board-leadership-card policy-cta-box">
+        <div class="leadership-tag">District Support</div>
+        <h3 class="superintendent-name">Questions about {school.shortName} policies?</h3>
+        <p class="superintendent-quote">
+          Search the full Board of Education policy database — student conduct (7:190), 1:1 Chromebook rules (6:235), attendance (7:70), bullying reporting, and public comment (2:230).
+        </p>
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
           <a href="/policies" class="btn-primary" style="font-size: 0.875rem;">
             🔍 Search District Policies
           </a>
           <a href="/parents" class="btn-secondary" style="font-size: 0.875rem;">
-            👨‍👩‍👧 Parent Hub
+            👨‍👩‍👧 Parent & Student Hub
+          </a>
+          <a href="/schools" class="btn-secondary" style="font-size: 0.875rem;">
+            🏫 All Schools
           </a>
         </div>
       </div>
@@ -121,13 +190,8 @@ const { school } = Astro.props;
 
 <style>
   .school-hero {
-    background: radial-gradient(circle at 80% 20%, rgba(197, 179, 88, 0.22), transparent 45%),
-                linear-gradient(135deg, #4A0072 0%, #6A0DAD 50%, #7B1FA2 100%);
-    color: #FFFFFF;
-    padding: 3.5rem 0 4.5rem;
-    border-bottom: 4px solid var(--cusd-gold);
+    padding-bottom: 5.5rem;
   }
-
   .back-link {
     display: inline-flex;
     align-items: center;
@@ -142,60 +206,34 @@ const { school } = Astro.props;
     transform: translateX(-3px);
     text-decoration: underline;
   }
-
-  .school-hero-pill {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(197, 179, 88, 0.5);
-    color: var(--cusd-gold);
+  .school-hero .hero-title {
+    font-size: 2.5rem;
+  }
+  .school-hero .status-stat-num {
+    font-size: 1.1rem;
+    line-height: 1.25;
+    word-break: break-word;
+  }
+  .snapshot-note {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem;
+    border-left: 3px solid var(--cusd-gold);
     font-size: 0.8125rem;
-    font-weight: 700;
-    padding: 0.35rem 0.85rem;
-    border-radius: 9999px;
-    margin-bottom: 0.75rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  .school-hero-title {
-    font-size: 2.75rem;
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 0.75rem;
-  }
-
-  .school-hero-tagline {
-    font-size: 1.15rem;
-    color: #F3E8FF;
-    max-width: 720px;
-    margin-bottom: 1.75rem;
-    line-height: 1.5;
-  }
-
-  .school-hero-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem 2rem;
-    font-size: 0.9rem;
     color: #E9D5FF;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 1rem 1.25rem;
-    border-radius: var(--radius-md);
-    margin-bottom: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
   }
-
-  .school-hero-meta a {
-    color: var(--cusd-gold);
-    font-weight: 700;
+  .snapshot-note strong {
+    color: #FFFFFF;
   }
-
   .school-hero-badges {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin-top: 1.5rem;
   }
-
   .school-badge-item {
     font-size: 0.75rem;
     font-weight: 700;
@@ -205,146 +243,48 @@ const { school } = Astro.props;
     border-radius: var(--radius-sm);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
-
-  .school-quick-section {
-    padding: 4.5rem 0;
-    background: var(--white);
-    border-bottom: 1px solid var(--slate-200);
-  }
-
   .section-header-centered {
     text-align: center;
     max-width: 760px;
     margin: 0 auto 3rem;
   }
-
-  .school-portal-grid {
-    display: grid;
+  .school-quick-section .quick-cards-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
   }
-
-  .school-portal-card {
-    background: var(--slate-50);
-    border: 1px solid var(--slate-200);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
+  .school-features-section {
+    background: var(--white);
+  }
+  .highlight-card {
     position: relative;
     overflow: hidden;
   }
-
-  .school-portal-card::before {
+  .highlight-card::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 4px;
     background: var(--cusd-purple);
     transition: background 0.2s;
   }
-
-  .school-portal-card:hover {
-    transform: translateY(-3px);
-    background: var(--white);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--cusd-purple-border);
-  }
-
-  .school-portal-card:hover::before {
+  .highlight-card:hover::before {
     background: var(--cusd-gold);
   }
-
-  .portal-card-icon {
-    font-size: 1.75rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .portal-card-label {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--slate-900);
-    margin-bottom: 1rem;
-    flex-grow: 1;
-    line-height: 1.4;
-  }
-
-  .portal-card-arrow {
-    font-size: 0.8125rem;
-    font-weight: 700;
-    color: var(--cusd-purple);
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-  }
-  .school-portal-card:hover .portal-card-arrow {
-    color: var(--cusd-gold-dark);
-  }
-
-  .school-features-section {
-    padding: 4.5rem 0;
-    background: var(--slate-50);
-    border-bottom: 1px solid var(--slate-200);
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  .feature-box {
-    background: var(--white);
-    border: 1px solid var(--slate-200);
-    border-radius: var(--radius-md);
-    padding: 1.75rem;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .feature-title {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--slate-900);
-    margin-bottom: 0.5rem;
-  }
-
-  .feature-desc {
-    font-size: 0.9rem;
-    color: var(--slate-600);
-    line-height: 1.6;
-  }
-
   .school-policies-banner {
-    padding: 3rem 0;
-    background: var(--white);
+    background: var(--slate-50);
   }
-
-  .policy-cta-box {
-    background: linear-gradient(135deg, var(--cusd-purple-deep), var(--cusd-purple));
-    border-radius: var(--radius-lg);
-    padding: 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    box-shadow: var(--shadow-md);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+  @media (max-width: 1024px) {
+    .school-quick-section .quick-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
-
-  @media (max-width: 900px) {
-    .school-portal-grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 640px) {
+    .school-hero .hero-title {
+      font-size: 2rem;
     }
-    .features-grid {
+    .school-quick-section .quick-cards-grid {
       grid-template-columns: 1fr;
-    }
-    .policy-cta-box {
-      flex-direction: column;
-      align-items: flex-start;
     }
   }
 </style>

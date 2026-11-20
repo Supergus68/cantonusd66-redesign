@@ -1,29 +1,84 @@
 ---
 import Layout from "../../components/Layout.astro";
+import QuickAccess from "../../components/QuickAccess.astro";
 import { SCHOOLS } from "../../data/schools.js";
 ---
 
-<Layout 
-  title="Our Community Schools · Canton Union School District #66" 
+<Layout
+  title="Our Community Schools · Canton Union School District #66"
   description="Explore the five schools of Canton Union School District #66: Canton High School, Ingersoll Middle School, Eastview Elementary, Lincoln Elementary, and Westview Elementary."
   currentPath="/schools"
 >
-  <div style="background: linear-gradient(135deg, var(--cusd-purple-deep), var(--cusd-purple)); color: white; padding: 3.5rem 0; border-bottom: 3px solid var(--cusd-gold);">
+  <!-- Hero: same layout and palette as the district home page -->
+  <section class="hero-district">
     <div class="container">
-      <div style="max-width: 800px;">
-        <span class="hero-pill" style="margin-bottom: 1rem;">District 66 Campus Directory</span>
-        <h1 style="font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem;">
-          Our Community Schools
-        </h1>
-        <p style="font-size: 1.1rem; color: #E9D5FF; line-height: 1.6;">
-          Canton Union School District #66 serves over 2,200 students across five distinctive schools. Click on any school below to view its dedicated page, bell schedules, principal messages, daily resources, and student handbooks.
-        </p>
+      <div class="hero-grid">
+        <div>
+          <div class="hero-pill">🏫 Five Schools · One District</div>
+          <h1 class="hero-title">Find Your <span>School</span></h1>
+          <p class="hero-lead">
+            Canton Union School District #66 serves over 2,200 students across five distinctive schools. Open a school below for bell schedules, principal contacts, daily resources, and handbooks.
+          </p>
+          <div class="hero-actions">
+            <a href="/parents" class="btn-primary">
+              👨‍👩‍👧 Parent & Student Hub
+            </a>
+            <a href="/policies" class="btn-secondary">
+              🔍 Board Policies
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <div class="hero-status-card">
+            <div class="status-card-header">
+              <span style="font-weight: 700; font-size: 0.95rem; color: #FFFFFF;">District Snapshot</span>
+              <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                <span>Schools in Session</span>
+              </div>
+            </div>
+
+            <div class="status-stat-grid">
+              <div class="status-stat-box">
+                <div class="status-stat-num">5</div>
+                <div class="status-stat-lbl">Community Schools</div>
+              </div>
+              <div class="status-stat-box">
+                <div class="status-stat-num">2,200+</div>
+                <div class="status-stat-lbl">Enrolled Students</div>
+              </div>
+              <div class="status-stat-box">
+                <div class="status-stat-num">1:1</div>
+                <div class="status-stat-lbl">Chromebook Tech</div>
+              </div>
+              <div class="status-stat-box">
+                <div class="status-stat-num">19</div>
+                <div class="status-stat-lbl">IHSA Varsity Sports</div>
+              </div>
+            </div>
+
+            <div class="snapshot-note">
+              <strong style="color: #FFFFFF;">Not sure where to start?</strong> The Parent Hub has registration, menus, calendars, and bullying reporting in one place.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <section style="padding: 4.5rem 0; background: var(--slate-50);">
+  <QuickAccess />
+
+  <section class="schools-section">
     <div class="container">
+      <div class="section-header-centered">
+        <span class="section-badge">District 66 Campuses</span>
+        <h2 class="section-heading">Our Community Schools</h2>
+        <p class="section-sub">
+          Five schools, one Little Giants family. Each page has its own principal, bell hours, resources, and quick links.
+        </p>
+      </div>
+
       <div class="schools-grid">
         {SCHOOLS.map((school) => (
           <article class="school-card">
@@ -37,9 +92,7 @@ import { SCHOOLS } from "../../data/schools.js";
               <div class="school-grades">Mascot: {school.mascot} ({school.colors})</div>
             </div>
 
-            <p style="font-size: 0.875rem; color: var(--slate-600); margin-bottom: 1rem; line-height: 1.5;">
-              {school.description}
-            </p>
+            <p class="school-card-desc">{school.description}</p>
 
             <ul class="school-meta-list">
               <li class="school-meta-item">
@@ -82,3 +135,26 @@ import { SCHOOLS } from "../../data/schools.js";
     </div>
   </section>
 </Layout>
+
+<style>
+  .section-header-centered {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 3rem;
+  }
+  .snapshot-note {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem;
+    border-left: 3px solid var(--cusd-gold);
+    font-size: 0.8125rem;
+    color: #E9D5FF;
+    line-height: 1.6;
+  }
+  .school-card-desc {
+    font-size: 0.875rem;
+    color: var(--slate-600);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+</style>
