@@ -1,0 +1,368 @@
+---
+---
+
+<section id="contact-board" class="contact-board-section">
+  <div class="container">
+    <div class="section-header-centered">
+      <span class="section-badge">Community Voice</span>
+      <h2 class="section-heading">Contact the Board &amp; Superintendent</h2>
+      <p class="section-sub">
+        Have a question, concern, or idea? Send a message directly to district leadership — without publishing an email address for spam bots to harvest.
+      </p>
+    </div>
+
+    <div class="contact-board-grid">
+      <div class="contact-info-card">
+        <div class="leadership-tag">How It Works</div>
+        <h3 class="contact-info-title">Your message, their inbox.</h3>
+        <p class="contact-info-lead">
+          Pick who you want to reach, write your note, and we'll open your own email app with everything filled in. Nothing is stored on this website.
+        </p>
+
+        <ol class="contact-steps">
+          <li><span>1</span><div><strong>Choose a recipient.</strong> Board matters or day-to-day district questions.</div></li>
+          <li><span>2</span><div><strong>Write your message.</strong> Include your name and a way to reply.</div></li>
+          <li><span>3</span><div><strong>Send it.</strong> Your email app opens with the address and subject ready.</div></li>
+        </ol>
+
+        <div class="contact-privacy">
+          <strong>🛡️ Spam-protected:</strong> No email address is written into this page's source. The district address is rebuilt in your browser only when you press send, so harvesting bots have nothing to find.
+        </div>
+
+        <div class="contact-fallback">
+          <strong>Prefer to call?</strong> District Office · (309) 647-9411<br />
+          20 West Walnut Street, Canton, IL 61520
+        </div>
+      </div>
+
+      <form id="boardContactForm" class="contact-form-card" novalidate>
+        <div class="contact-form-head">
+          <span class="contact-form-icon">✉️</span>
+          <div>
+            <h3>Send a Message</h3>
+            <p>All fields marked * are required.</p>
+          </div>
+        </div>
+
+        <div class="contact-form-row">
+          <div class="contact-field">
+            <label for="contactName">Your name *</label>
+            <input id="contactName" name="contactName" type="text" autocomplete="name" required placeholder="Jane Smith" />
+          </div>
+          <div class="contact-field">
+            <label for="contactEmail">Your email *</label>
+            <input id="contactEmail" name="contactEmail" type="email" autocomplete="email" required placeholder="you@example.com" />
+          </div>
+        </div>
+
+        <div class="contact-field">
+          <label for="contactTopic">Who should receive this? *</label>
+          <select id="contactTopic" name="contactTopic" required>
+            <option value="board">Board of Education (policy, governance, public comment)</option>
+            <option value="superintendent">Superintendent Tad DeRenzy (district operations)</option>
+          </select>
+        </div>
+
+        <div class="contact-field">
+          <label for="contactSubject">Subject</label>
+          <input id="contactSubject" name="contactSubject" type="text" placeholder="What is this about?" />
+        </div>
+
+        <div class="contact-field">
+          <label for="contactMessage">Message *</label>
+          <textarea id="contactMessage" name="contactMessage" rows="5" required placeholder="Tell us what's on your mind..."></textarea>
+        </div>
+
+        <div class="honeypot" aria-hidden="true">
+          <label for="contactWebsite">Leave this field empty</label>
+          <input id="contactWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <label class="contact-consent" for="contactConsent">
+          <input id="contactConsent" name="contactConsent" type="checkbox" required />
+          <span>I understand this opens my email app so I can send the message myself.</span>
+        </label>
+
+        <button type="submit" class="btn-primary contact-submit">Open My Email App &rarr;</button>
+
+        <p id="contactStatus" class="contact-status" role="status" aria-live="polite"></p>
+        <a id="contactFallback" class="contact-fallback-link" href="#">Didn't open? Click here to try again &rarr;</a>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('boardContactForm');
+    if (!form) return;
+
+    var status = document.getElementById('contactStatus');
+    var fallback = document.getElementById('contactFallback');
+
+    // Obfuscated district address: char codes XOR 0x5A XOR (index % 5).
+    // Rebuilt only inside this handler, never written as a literal in the page.
+    var coded = [46,63,61,43,59,52,33,33,25,61,47,40,60,111,104,116,52,42,62];
+    function reveal() {
+      return coded.map(function (n, i) {
+        return String.fromCharCode(n ^ 0x5A ^ (i % 5));
+      }).join('');
+    }
+
+    function value(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      status.textContent = '';
+
+      // Honeypot: real visitors never fill this hidden field.
+      if (value('contactWebsite') !== '') return;
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      var name = value('contactName');
+      var reply = value('contactEmail');
+      var subject = value('contactSubject');
+      var message = value('contactMessage');
+      var topic = value('contactTopic');
+      var label = topic === 'board' ? 'Board of Education' : 'Superintendent Tad DeRenzy';
+      var fullSubject = '[CUSD #66 - ' + label + '] ' + (subject || 'Message from ' + name);
+      var body = [
+        'To: ' + label,
+        '',
+        'From: ' + name + ' <' + reply + '>',
+        '',
+        message,
+        '',
+        '---',
+        'Sent from the Canton USD #66 redesign demo contact form.'
+      ].join('\n');
+
+      var href = 'mailto:' + reveal() + '?subject=' + encodeURIComponent(fullSubject) + '&body=' + encodeURIComponent(body);
+      fallback.href = href;
+      fallback.style.display = 'inline-block';
+      status.textContent = 'Your email app should open now. If it does not, use the link below.';
+      window.location.href = href;
+    });
+  })();
+</script>
+
+<style>
+  .contact-board-section {
+    background: var(--white);
+    border-top: 1px solid var(--slate-200);
+  }
+  .section-header-centered {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 3rem;
+  }
+  .contact-board-grid {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  .contact-info-card {
+    background: linear-gradient(135deg, var(--cusd-purple-deep), var(--cusd-purple));
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+  }
+  .contact-info-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0.85rem 0 0.75rem;
+  }
+  .contact-info-lead {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #E9D5FF;
+    margin-bottom: 1.5rem;
+  }
+  .contact-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .contact-steps li {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #F3E8FF;
+  }
+  .contact-steps li span {
+    flex: 0 0 1.75rem;
+    height: 1.75rem;
+    border-radius: 9999px;
+    background: var(--cusd-gold);
+    color: var(--cusd-purple-deep);
+    font-weight: 800;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .contact-privacy {
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--cusd-gold);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: #E9D5FF;
+    margin-bottom: 1rem;
+  }
+  .contact-privacy strong {
+    color: #FFFFFF;
+  }
+  .contact-fallback {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #E9D5FF;
+  }
+  .contact-fallback strong {
+    color: #FFFFFF;
+  }
+  .contact-form-card {
+    background: var(--slate-50);
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .contact-form-head {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  .contact-form-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 2.75rem;
+    border-radius: var(--radius-md);
+    background: var(--cusd-purple);
+    color: #FFFFFF;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+  }
+  .contact-form-head h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin: 0;
+  }
+  .contact-form-head p {
+    font-size: 0.78rem;
+    color: var(--slate-500);
+    margin: 0.15rem 0 0;
+  }
+  .contact-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .contact-field {
+    margin-bottom: 1.1rem;
+  }
+  .contact-field label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--slate-700);
+    margin-bottom: 0.35rem;
+  }
+  .contact-field input,
+  .contact-field select,
+  .contact-field textarea {
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: var(--slate-900);
+    background: var(--white);
+    border: 1px solid var(--slate-300);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .contact-field textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  .contact-field input:focus,
+  .contact-field select:focus,
+  .contact-field textarea:focus {
+    border-color: var(--cusd-purple);
+    box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.12);
+  }
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .contact-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--slate-600);
+    margin: 0.25rem 0 1.25rem;
+    cursor: pointer;
+  }
+  .contact-consent input {
+    margin-top: 0.15rem;
+    accent-color: var(--cusd-purple);
+  }
+  .contact-submit {
+    width: 100%;
+    justify-content: center;
+  }
+  .contact-status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--cusd-purple);
+    margin: 0.85rem 0 0;
+    min-height: 1.1rem;
+  }
+  .contact-fallback-link {
+    display: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--cusd-purple-deep);
+    margin-top: 0.35rem;
+  }
+  @media (max-width: 900px) {
+    .contact-board-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .contact-form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .contact-info-card,
+    .contact-form-card {
+      padding: 1.5rem;
+    }
+  }
+</style>
