@@ -1,5 +1,6 @@
 ---
 import Layout from "../../components/Layout.astro";
+import StaffSearch from "../../components/StaffSearch.astro";
 import { SCHOOLS } from "../../data/schools.js";
 
 export function getStaticPaths() {
@@ -65,6 +66,9 @@ function describe(label: string, shortName: string) {
             </a>
             <a href="/parents" class="btn-secondary">
               👨‍👩‍👧 Parent Hub
+            </a>
+            <a href="#school-staff-search" class="btn-secondary">
+              👩‍🏫 Find a Teacher
             </a>
           </div>
 
@@ -138,6 +142,9 @@ function describe(label: string, shortName: string) {
       </div>
     </div>
   </section>
+
+  <!-- Searchable staff directory for this school -->
+  <StaffSearch school={school.name} id="school-staff-search" compact />
 
   <!-- Highlights: same section and card treatment as the home page -->
   <section class="policy-section school-features-section">

@@ -1,0 +1,319 @@
+---
+import { TEACHERS } from "../data/teachers.js";
+import { SCHOOLS } from "../data/schools.js";
+
+interface Props {
+  school?: string;
+  id?: string;
+  compact?: boolean;
+}
+
+const { school = "", id = "staff-search", compact = false } = Astro.props;
+
+// Emails are encoded at build time so no address is published in the page source.
+const encode = (email: string) =>
+  email ? Array.from(email).map((c, i) => c.charCodeAt(0) ^ 0x7a ^ (i % 7)).join(",") : "";
+
+const phoneBySchool: Record<string, string> = Object.fromEntries(
+  SCHOOLS.map((s) => [s.name, s.phone])
+);
+
+const records = TEACHERS
+  .filter((t) => !school || t.school === school)
+  .map((t) => ({
+    n: t.name,
+    s: t.school,
+    p: t.position,
+    j: t.subject || "",
+    e: encode(t.email),
+    ph: phoneBySchool[t.school] || "(309) 647-9411",
+  }));
+---
+
+<section id={id} class:list={["staff-search-section", { "is-compact": compact }]}>
+  <div class="container">
+    <div class="staff-search-card">
+      <div class="staff-search-head">
+        <span class="section-badge">👩‍🏫 Staff Directory</span>
+        <h2 class="staff-search-title">{school ? `Find a ${school} Staff Member` : "Find a Teacher or Staff Member"}</h2>
+        <p class="staff-search-sub">
+          Search by last name, grade, or subject to find the right person and a way to reach them.
+        </p>
+      </div>
+
+      <div class="staff-search-controls">
+        <div class="staff-input-wrap">
+          <span class="staff-search-icon">🔍</span>
+          <input
+            id={`${id}-query`}
+            class="staff-search-input"
+            type="search"
+            autocomplete="off"
+            placeholder="Try a name, grade, or subject (e.g. 5th grade, band)..."
+            aria-label="Search teachers and staff"
+          />
+        </div>
+        {!school && (
+          <select id={`${id}-school`} class="staff-school-select" aria-label="Filter by school">
+            <option value="">All CUSD #66 Schools</option>
+            {SCHOOLS.map((s) => <option value={s.name}>{s.name}</option>)}
+          </select>
+        )}
+      </div>
+
+      <p id={`${id}-count`} class="staff-count" role="status" aria-live="polite"></p>
+      <div id={`${id}-results`} class="staff-results" data-json={JSON.stringify(records)}></div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  document.querySelectorAll('.staff-search-section').forEach(function (root) {
+    var searchId = root.id;
+    var input = document.getElementById(searchId + '-query');
+    var schoolSelect = document.getElementById(searchId + '-school');
+    var count = document.getElementById(searchId + '-count');
+    var results = document.getElementById(searchId + '-results');
+    var data = JSON.parse(results.getAttribute('data-json') || '[]');
+
+    function reveal(code) {
+      if (!code) return '';
+      return code.split(',').map(function (n, i) {
+        return String.fromCharCode(Number(n) ^ 0x7a ^ (i % 7));
+      }).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s || '').replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function render() {
+      var q = input.value.trim().toLowerCase();
+      var school = schoolSelect ? schoolSelect.value : '';
+
+      if (q.length < 2 && !school) {
+        count.textContent = data.length + ' staff members available';
+        results.innerHTML = '<div class="staff-empty">Type at least two letters of a name or subject, or choose a school, to see results.</div>';
+        return;
+      }
+
+      var matches = data.filter(function (t) {
+        if (school && t.s !== school) return false;
+        if (!q) return true;
+        return (t.n + ' ' + t.p + ' ' + t.j + ' ' + t.s).toLowerCase().indexOf(q) !== -1;
+      });
+
+      count.textContent = 'Showing ' + matches.length + ' of ' + data.length + ' staff members';
+
+      if (!matches.length) {
+        results.innerHTML = '<div class="staff-empty">No matches. Try a shorter name or a different subject.</div>';
+        return;
+      }
+
+      results.innerHTML = matches.slice(0, 120).map(function (t, i) {
+        var contact = t.e
+          ? '<button type="button" class="staff-email-btn" data-code="' + escapeHtml(t.e) + '">✉️ Email</button>'
+          : '<a class="staff-call-btn" href="tel:' + t.ph.replace(/[^0-9]/g, '') + '">📞 Call school</a>';
+        return '<div class="staff-row">' +
+          '<div class="staff-avatar">' + escapeHtml(t.n.split(' ').map(function (w) { return w.charAt(0); }).slice(0, 2).join('')) + '</div>' +
+          '<div class="staff-row-main">' +
+            '<div class="staff-name">' + escapeHtml(t.n) + '</div>' +
+            '<div class="staff-role">' + escapeHtml(t.p) + (t.j ? ' · ' + escapeHtml(t.j) : '') + '</div>' +
+            '<div class="staff-school">' + escapeHtml(t.s) + '</div>' +
+          '</div>' +
+          contact +
+        '</div>';
+      }).join('') + (matches.length > 120 ? '<div class="staff-empty">Showing the first 120 results — narrow your search for more.</div>' : '');
+    }
+
+    input.addEventListener('input', render);
+    if (schoolSelect) schoolSelect.addEventListener('change', render);
+
+    results.addEventListener('click', function (e) {
+      var btn = e.target.closest('.staff-email-btn');
+      if (!btn) return;
+      var email = reveal(btn.getAttribute('data-code'));
+      if (!email) return;
+      var subject = encodeURIComponent('Message for ' + btn.closest('.staff-row').querySelector('.staff-name').textContent);
+      window.location.href = 'mailto:' + email + '?subject=' + subject;
+    });
+
+    render();
+  });
+</script>
+
+<style>
+  .staff-search-section {
+    background: var(--white);
+    padding: 3rem 0;
+  }
+  .staff-search-section.is-compact {
+    padding: 0 0 3rem;
+  }
+  .staff-search-card {
+    background: var(--slate-50);
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .staff-search-head {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 1.5rem;
+  }
+  .staff-search-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin: 0.75rem 0 0.5rem;
+  }
+  .is-compact .staff-search-title {
+    font-size: 1.35rem;
+  }
+  .staff-search-sub {
+    font-size: 0.85rem;
+    color: var(--slate-600);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .staff-search-controls {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .staff-input-wrap {
+    position: relative;
+  }
+  .staff-search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+  .staff-search-input,
+  .staff-school-select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    border: 1px solid var(--slate-300);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    color: var(--slate-900);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .staff-search-input {
+    padding-left: 2.75rem;
+  }
+  .staff-school-select {
+    min-width: 230px;
+  }
+  .staff-search-input:focus,
+  .staff-school-select:focus {
+    border-color: var(--cusd-purple);
+    box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.12);
+  }
+  .staff-count {
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--slate-500);
+    margin: 1rem 0 0.75rem;
+  }
+  .staff-results {
+    max-height: 460px;
+    overflow-y: auto;
+    border-radius: var(--radius-md);
+    background: var(--white);
+    border: 1px solid var(--slate-200);
+  }
+  .staff-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--slate-100);
+  }
+  .staff-row:last-child {
+    border-bottom: 0;
+  }
+  .staff-avatar {
+    flex: 0 0 2.4rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 9999px;
+    background: var(--cusd-purple);
+    color: #FFFFFF;
+    font-size: 0.72rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .staff-row-main {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .staff-name {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--slate-900);
+  }
+  .staff-role {
+    font-size: 0.78rem;
+    color: var(--slate-600);
+    margin-top: 0.1rem;
+  }
+  .staff-school {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--cusd-purple);
+    margin-top: 0.15rem;
+  }
+  .staff-email-btn,
+  .staff-call-btn {
+    flex: 0 0 auto;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .staff-email-btn {
+    background: var(--cusd-purple);
+    color: #FFFFFF;
+    border: 1px solid var(--cusd-purple);
+  }
+  .staff-call-btn {
+    background: var(--white);
+    color: var(--cusd-purple-deep);
+    border: 1px solid var(--slate-300);
+  }
+  .staff-empty {
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--slate-500);
+  }
+  @media (max-width: 720px) {
+    .staff-search-controls {
+      grid-template-columns: 1fr;
+    }
+    .staff-school-select {
+      min-width: 0;
+    }
+    .staff-search-card {
+      padding: 1.25rem;
+    }
+  }
+</style>
