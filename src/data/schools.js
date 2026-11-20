@@ -143,7 +143,7 @@ export const SCHOOLS = [
     grades: "Grades K – 4",
     mascot: "Little Giants",
     colors: "Purple & Vegas Gold",
-    principal: "Nick Fahl",
+    principal: "Kaylah Harris",
     asstPrincipal: "Staff Team",
     address: "700 W. Walnut Street, Canton, IL 61520",
     phone: "(309) 647-2111",
