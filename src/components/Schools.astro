@@ -1,0 +1,67 @@
+---
+import { SCHOOLS } from "../data/schools.js";
+---
+
+<section id="schools" class="schools-section">
+  <div class="container">
+    <div style="text-align: center; max-width: 760px; margin: 0 auto 3rem;">
+      <span class="section-badge">Five Distinct Schools · One District Family</span>
+      <h2 class="section-heading">Our Community Schools</h2>
+      <p class="section-sub" style="margin-left: auto; margin-right: auto;">
+        From early childhood and foundational elementary literacy to rigorous college-prep, CTE pathways, and Little Giants athletics, Canton USD #66 supports every stage of student growth.
+      </p>
+    </div>
+
+    <div class="schools-grid">
+      {SCHOOLS.map((school) => (
+        <article class="school-card">
+          <div>
+            <span class="school-badge">{school.grades}</span>
+            <h3 class="school-title">{school.name}</h3>
+            <div class="school-grades">Mascot: {school.mascot} ({school.colors})</div>
+          </div>
+
+          <p style="font-size: 0.875rem; color: var(--slate-600); margin-bottom: 1rem; line-height: 1.5;">
+            {school.description}
+          </p>
+
+          <ul class="school-meta-list">
+            <li class="school-meta-item">
+              <span>👤</span>
+              <span><strong>Principal:</strong> {school.principal}</span>
+            </li>
+            <li class="school-meta-item">
+              <span>📍</span>
+              <span>{school.address}</span>
+            </li>
+            <li class="school-meta-item">
+              <span>📞</span>
+              <a href={`tel:${school.phone.replace(/[^0-9]/g, '')}`} style="color: var(--cusd-purple); font-weight: 600;">
+                {school.phone}
+              </a>
+            </li>
+            <li class="school-meta-item">
+              <span>⏰</span>
+              <span><strong>Hours:</strong> {school.hours}</span>
+            </li>
+          </ul>
+
+          <div class="school-tags">
+            {school.badges.map((tag) => (
+              <span class="school-tag">{tag}</span>
+            ))}
+          </div>
+
+          <div class="school-actions">
+            <a href={school.handbookUrl} target="_blank" rel="noopener" class="btn-policy-link" style="font-size: 0.8125rem;">
+              📘 Student Handbook
+            </a>
+            <a href={school.athleticsUrl} target="_blank" rel="noopener" class="btn-policy-ext" style="font-size: 0.8125rem;">
+              Athletics & Info ↗
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

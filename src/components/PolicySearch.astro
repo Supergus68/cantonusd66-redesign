@@ -1,0 +1,246 @@
+---
+import { POLICIES, POLICY_SECTIONS } from "../data/policies.js";
+
+interface Props {
+  isFullPage?: boolean;
+}
+
+const { isFullPage = false } = Astro.props;
+---
+
+<section id="policy-search" class="policy-section">
+  <div class="container">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 2.5rem;">
+      <span class="section-badge">Transparency & Governance</span>
+      <h2 class="section-heading">Board of Education Policy Search</h2>
+      <p class="section-sub" style="margin-left: auto; margin-right: auto;">
+        Quickly locate official Canton Union School District #66 policies adopted by the Board of Education. Designed for parents and community members seeking clear answers regarding student conduct, digital safety, attendance, athletics, and governance.
+      </p>
+    </div>
+
+    <!-- Interactive Search Controls -->
+    <div class="search-box-wrapper">
+      <div class="search-input-group">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input 
+          type="search" 
+          id="policyQueryInput" 
+          class="policy-search-input" 
+          placeholder="Search by policy code (e.g. 7:180, 6:235) or keyword (e.g. bullying, device, attendance, cell phones, discipline)..." 
+          aria-label="Search District Board Policies"
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Quick Suggested Search Chips -->
+      <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; font-size: 0.8125rem;">
+        <span style="font-weight: 700; color: var(--slate-500);">Popular Searches:</span>
+        <button type="button" class="quick-chip-btn" data-query="bullying">🛡️ Bullying & Harassment (7:180)</button>
+        <button type="button" class="quick-chip-btn" data-query="chromebook">💻 Device & Acceptable Use (6:235)</button>
+        <button type="button" class="quick-chip-btn" data-query="attendance">⏰ Attendance & Truancy (7:70)</button>
+        <button type="button" class="quick-chip-btn" data-query="discipline">⚖️ Student Conduct (7:190)</button>
+        <button type="button" class="quick-chip-btn" data-query="public participation">🎙️ Board Meeting Public Comment (2:230)</button>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-filter-pills" role="tablist" aria-label="Filter policies by section">
+        {POLICY_SECTIONS.map((sec) => (
+          <button 
+            type="button" 
+            class:list={["filter-pill", { active: sec.id === "all" }]} 
+            data-section={sec.id}
+            role="tab"
+            aria-selected={sec.id === "all" ? "true" : "false"}
+          >
+            {sec.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Results Status Bar -->
+    <div class="policy-results-counter">
+      <div>
+        Showing <strong id="activePolicyCount">{POLICIES.length}</strong> of <strong>{POLICIES.length}</strong> district policies
+      </div>
+      <div>
+        <a href="https://www.boardpolicyonline.com/?b=canton_union_66" target="_blank" rel="noopener" style="color: var(--cusd-purple); font-weight: 600; font-size: 0.8125rem;">
+          External Link: Open Full IASB BoardPolicy Online &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Policies Grid -->
+    <div id="policyCardGrid" class="policy-grid">
+      {POLICIES.map((policy) => (
+        <article 
+          class="policy-card" 
+          data-policy-id={policy.id}
+          data-section={policy.section}
+          data-code={policy.code.toLowerCase()}
+          data-title={policy.title.toLowerCase()}
+          data-summary={policy.summary.toLowerCase()}
+          data-keywords={policy.keywords.join(" ").toLowerCase()}
+        >
+          <div class="policy-card-top">
+            <span class="policy-code-badge">Policy {policy.code}</span>
+            <span class="policy-section-tag">{policy.sectionName}</span>
+          </div>
+
+          <h3 class="policy-title">{policy.title}</h3>
+          
+          <div style="font-size: 0.75rem; color: var(--slate-500); margin-bottom: 0.6rem;">
+            📅 {policy.adopted} · Category: <span style="font-weight: 600; color: var(--slate-700);">{policy.category}</span>
+          </div>
+
+          <p class="policy-summary">{policy.summary}</p>
+
+          <div style="margin-bottom: 0.5rem; font-size: 0.8125rem; font-weight: 700; color: var(--slate-900);">
+            Key Takeaways for Parents & Guardians:
+          </div>
+          <ul class="policy-key-points">
+            {policy.keyPoints.map((point) => (
+              <li class="policy-point-item">{point}</li>
+            ))}
+          </ul>
+
+          <div class="policy-actions">
+            <a href={policy.pdfUrl} target="_blank" rel="noopener" class="btn-policy-link">
+              📄 View Document
+            </a>
+            <a href={policy.iasbUrl} target="_blank" rel="noopener" class="btn-policy-ext">
+              IASB Portal ↗
+            </a>
+            <span style="font-size: 0.75rem; color: var(--slate-400); margin-left: auto;">
+              ID: {policy.code}
+            </span>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Empty State Container -->
+    <div id="noResultsNotice" style="display: none; text-align: center; padding: 3.5rem 1rem; background: var(--slate-50); border-radius: var(--radius-md); border: 1px dashed var(--slate-300);">
+      <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔍</div>
+      <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--slate-800); margin-bottom: 0.5rem;">No matching policies found</h3>
+      <p style="font-size: 0.9rem; color: var(--slate-600); max-width: 480px; margin: 0 auto 1.5rem;">
+        We could not find policies matching your query. Try searching by keyword such as "bullying", "device", "conduct", or section number "7".
+      </p>
+      <button type="button" id="resetPolicySearchBtn" class="btn-primary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+        Reset Search & Show All Policies
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .quick-chip-btn {
+    background: var(--white);
+    border: 1px solid var(--slate-300);
+    color: var(--slate-700);
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .quick-chip-btn:hover {
+    background: var(--cusd-purple-light);
+    border-color: var(--cusd-purple-border);
+    color: var(--cusd-purple);
+  }
+</style>
+
+<script>
+  function initPolicySearch() {
+    const searchInput = document.getElementById("policyQueryInput") as HTMLInputElement | null;
+    const filterPills = document.querySelectorAll<HTMLButtonElement>(".filter-pill");
+    const quickChips = document.querySelectorAll<HTMLButtonElement>(".quick-chip-btn");
+    const policyCards = document.querySelectorAll<HTMLElement>(".policy-card");
+    const counterEl = document.getElementById("activePolicyCount");
+    const noResults = document.getElementById("noResultsNotice");
+    const resetBtn = document.getElementById("resetPolicySearchBtn");
+
+    if (!searchInput || !counterEl || !noResults) return;
+
+    let activeSection = "all";
+    let activeQuery = "";
+
+    function filterPolicies() {
+      const q = activeQuery.trim().toLowerCase();
+      let matchCount = 0;
+
+      policyCards.forEach((card) => {
+        const section = card.getAttribute("data-section") || "";
+        const code = card.getAttribute("data-code") || "";
+        const title = card.getAttribute("data-title") || "";
+        const summary = card.getAttribute("data-summary") || "";
+        const keywords = card.getAttribute("data-keywords") || "";
+
+        const matchesSection = activeSection === "all" || section === activeSection;
+        
+        let matchesQuery = true;
+        if (q.length > 0) {
+          matchesQuery = 
+            code.includes(q) || 
+            title.includes(q) || 
+            summary.includes(q) || 
+            keywords.includes(q);
+        }
+
+        if (matchesSection && matchesQuery) {
+          card.style.display = "flex";
+          matchCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      counterEl.textContent = matchCount.toString();
+      noResults.style.display = matchCount === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      activeQuery = (e.target as HTMLInputElement).value;
+      filterPolicies();
+    });
+
+    filterPills.forEach((pill) => {
+      pill.addEventListener("click", () => {
+        filterPills.forEach((p) => {
+          p.classList.remove("active");
+          p.setAttribute("aria-selected", "false");
+        });
+        pill.classList.add("active");
+        pill.setAttribute("aria-selected", "true");
+        activeSection = pill.getAttribute("data-section") || "all";
+        filterPolicies();
+      });
+    });
+
+    quickChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const query = chip.getAttribute("data-query") || "";
+        searchInput.value = query;
+        activeQuery = query;
+        filterPolicies();
+      });
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        activeQuery = "";
+        activeSection = "all";
+        filterPills.forEach((p) => {
+          const isAll = p.getAttribute("data-section") === "all";
+          p.classList.toggle("active", isAll);
+          p.setAttribute("aria-selected", isAll ? "true" : "false");
+        });
+        filterPolicies();
+      });
+    }
+  }
+
+  initPolicySearch();
+  document.addEventListener("astro:page-load", initPolicySearch);
+</script>
