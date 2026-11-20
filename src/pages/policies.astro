@@ -1,0 +1,55 @@
+---
+import Layout from "../components/Layout.astro";
+import PolicySearch from "../components/PolicySearch.astro";
+---
+
+<Layout 
+  title="Board of Education Policies & Guidelines · Canton USD #66" 
+  description="Search and explore official Board of Education policies for Canton Union School District #66, including student conduct, bullying prevention, 1:1 technology use, attendance, and governance."
+  currentPath="/policies"
+>
+  <div style="background: linear-gradient(135deg, var(--cusd-purple-deep), var(--cusd-purple)); color: white; padding: 3.5rem 0; border-bottom: 3px solid var(--cusd-gold);">
+    <div class="container">
+      <div style="max-width: 800px;">
+        <span class="hero-pill" style="margin-bottom: 1rem;">IASB Policy System · Canton Union #66</span>
+        <h1 style="font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem;">
+          District Board of Education Policies
+        </h1>
+        <p style="font-size: 1.1rem; color: #E9D5FF; line-height: 1.6;">
+          Official policies adopted by the Canton Union School District #66 Board of Education. Use our real-time search below to quickly find policies on attendance, student discipline, devices, bullying prevention, and board meetings.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <PolicySearch isFullPage={true} />
+
+  <!-- Policy Governance Info Section -->
+  <section style="padding: 3.5rem 0; background: var(--slate-50); border-top: 1px solid var(--slate-200);">
+    <div class="container">
+      <div style="background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--slate-200); padding: 2.25rem;">
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.75rem;">
+          How District Policies Are Adopted & Maintained
+        </h3>
+        <p style="font-size: 0.925rem; color: var(--slate-600); line-height: 1.6; margin-bottom: 1.25rem;">
+          Canton Union School District #66 subscribes to the <strong>Illinois Association of School Boards (IASB) Policy Reference Education Subscription Service (PRESS)</strong>. Policies undergo two formal readings during public Board of Education monthly meetings prior to formal adoption or amendment.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 1.5rem;">
+          <div style="background: var(--slate-50); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--cusd-purple);">
+            <div style="font-weight: 700; color: var(--slate-900); margin-bottom: 0.35rem;">1. First Reading</div>
+            <div style="font-size: 0.85rem; color: var(--slate-600);">Proposed updates are presented publicly to the Board and entered into minutes for community review.</div>
+          </div>
+          <div style="background: var(--slate-50); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--cusd-gold); border-left-color: var(--cusd-gold-dark);">
+            <div style="font-weight: 700; color: var(--slate-900); margin-bottom: 0.35rem;">2. Public Comment</div>
+            <div style="font-size: 0.85rem; color: var(--slate-600);">Community members may address the Board regarding proposed policy changes under Policy 2:230.</div>
+          </div>
+          <div style="background: var(--slate-50); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid #16A34A;">
+            <div style="font-weight: 700; color: var(--slate-900); margin-bottom: 0.35rem;">3. Adoption & Archive</div>
+            <div style="font-size: 0.85rem; color: var(--slate-600);">Following the second reading and board vote, policies become active and are posted to IASB Online.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

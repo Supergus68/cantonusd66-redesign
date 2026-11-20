@@ -1,0 +1,31 @@
+---
+import Layout from "../components/Layout.astro";
+import ParentHub from "../components/ParentHub.astro";
+import QuickAccess from "../components/QuickAccess.astro";
+---
+
+<Layout 
+  title="Parent & Student Resource Portal · Canton USD #66" 
+  description="Central hub for Canton USD #66 parents and students: Skyward Family Access, school breakfast & lunch menus, calendars, student handbooks, and registration."
+  currentPath="/parents"
+>
+  <div style="background: linear-gradient(135deg, var(--cusd-purple-deep), var(--cusd-purple)); color: white; padding: 3.5rem 0; border-bottom: 3px solid var(--cusd-gold);">
+    <div class="container">
+      <div style="max-width: 800px;">
+        <span class="hero-pill" style="margin-bottom: 1rem;">Family Resources & Portals</span>
+        <h1 style="font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem;">
+          Parent & Student Resource Center
+        </h1>
+        <p style="font-size: 1.1rem; color: #E9D5FF; line-height: 1.6;">
+          Everything you need for your student's success in District 66. Direct access to Skyward, cafeteria menus, school supply lists, medical forms, and registration.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 3.5rem;">
+    <QuickAccess />
+  </div>
+  
+  <ParentHub />
+</Layout>

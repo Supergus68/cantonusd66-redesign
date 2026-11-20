@@ -1,0 +1,26 @@
+---
+import Layout from "../components/Layout.astro";
+import BoardSection from "../components/BoardSection.astro";
+---
+
+<Layout 
+  title="Board of Education & Administration · Canton USD #66" 
+  description="Board of Education members, superintendent message, monthly meeting schedules, agendas, minutes, and transparency reports for Canton Union School District #66."
+  currentPath="/board"
+>
+  <div style="background: linear-gradient(135deg, var(--cusd-purple-deep), var(--cusd-purple)); color: white; padding: 3.5rem 0; border-bottom: 3px solid var(--cusd-gold);">
+    <div class="container">
+      <div style="max-width: 800px;">
+        <span class="hero-pill" style="margin-bottom: 1rem;">Community Trustees & Leadership</span>
+        <h1 style="font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem;">
+          CUSD #66 Board of Education
+        </h1>
+        <p style="font-size: 1.1rem; color: #E9D5FF; line-height: 1.6;">
+          Elected community trustees establishing district policy, providing financial oversight, and supporting the superintendent and staff in delivering excellence in education.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <BoardSection />
+</Layout>
