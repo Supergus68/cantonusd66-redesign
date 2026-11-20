@@ -1,0 +1,84 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+---
+
+<header>
+  <!-- Top District Utility Bar -->
+  <div class="top-banner">
+    <div class="container">
+      <div class="top-contact">
+        <span>📍 <strong>District Office:</strong> 20 W. Walnut St, Canton, IL 61520</span>
+        <a href="tel:3096479411">📞 (309) 647-9411</a>
+      </div>
+      <div class="top-quick-links">
+        <a href="https://www.fdmealplanner.com/#menu/mp/CantonUnionSD/" target="_blank" rel="noopener" class="top-badge-link">
+          🍎 Lunch Menus
+        </a>
+        <a href="https://schools.snap.app/canton" target="_blank" rel="noopener" class="top-badge-link">
+          ⚡ Little Giants Athletics
+        </a>
+        <a href="/policies" class="top-badge-link">
+          📜 Board Policy Search
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <div class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="brand-logo" aria-label="Canton USD 66 Home">
+          <div class="brand-crest">
+            <span class="crest-number">66</span>
+            <span class="crest-sub">CUSD</span>
+          </div>
+          <div>
+            <div class="brand-text-title">Canton Union School District #66</div>
+            <div class="brand-text-sub">Excellence in Education · Fulton County, Illinois</div>
+          </div>
+        </a>
+
+        <nav aria-label="Main Navigation">
+          <ul class="nav-links">
+            <li class="nav-item">
+              <a href="/#schools" class:list={["nav-link", { active: currentPath === "/schools" }]}>
+                Schools
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/parents" class:list={["nav-link", { active: currentPath === "/parents" }]}>
+                Parents & Students
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/policies" class:list={["nav-link", { active: currentPath === "/policies" }]}>
+                Board Policies
+                <span class="nav-link-badge">Searchable</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/board" class:list={["nav-link", { active: currentPath === "/board" }]}>
+                School Board
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="https://clever.com/in/canton-union-school-dist-66-1c0a4dd" target="_blank" rel="noopener" class="nav-link">
+                Clever
+              </a>
+            </li>
+            <li>
+              <a href="https://www.cantonusd.org/skyward-family-access.html" target="_blank" rel="noopener" class="btn-skyward">
+                <span>🎓 Skyward Login</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
